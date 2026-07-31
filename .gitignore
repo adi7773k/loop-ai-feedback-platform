@@ -1,40 +1,80 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ==========================
+# Dependencies
+# ==========================
+front/node_modules/
+back/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
+# Yarn / PnP
+.pnp
 .pnp.js
+.yarn/
 .yarn/install-state.gz
 
-# testing
-/coverage
+# ==========================
+# Next.js build output
+# ==========================
+front/.next/
+back/.next/
+front/out/
+back/out/
 
-# next.js
-/.next/
-/out/
+# ==========================
+# Build output
+# ==========================
+front/build/
+back/build/
 
-# production
-/build
+# ==========================
+# Coverage
+# ==========================
+front/coverage/
+back/coverage/
 
-# misc
-.DS_Store
-*.pem
+# ==========================
+# Environment files
+# ==========================
+front/.env
+front/.env.local
+front/.env.development.local
+front/.env.production.local
+front/.env.test.local
 
-# debug
+back/.env
+back/.env.local
+back/.env.development.local
+back/.env.production.local
+back/.env.test.local
+
+# ==========================
+# TypeScript
+# ==========================
+front/*.tsbuildinfo
+back/*.tsbuildinfo
+
+# Next.js generated file
+front/next-env.d.ts
+back/next-env.d.ts
+
+# ==========================
+# Vercel
+# ==========================
+front/.vercel/
+back/.vercel/
+
+# ==========================
+# Logs
+# ==========================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env
-.env.local
-.env*.local
+# ==========================
+# OS files
+# ==========================
+.DS_Store
+Thumbs.db
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-/app/generated/prisma
+# ==========================
+# Certificates
+# ==========================
+*.pem
