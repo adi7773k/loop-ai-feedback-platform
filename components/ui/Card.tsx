@@ -1,19 +1,40 @@
-import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
+import { ReactNode } from "react";
+import clsx from "clsx";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {}
+interface Props{
+
+children:ReactNode;
+
+className?:string;
+
+}
 
 export default function Card({
-  className,
-  ...props
-}: CardProps) {
-  return (
-    <div
-      className={cn(
-        "rounded-3xl border border-slate-200 bg-white shadow-sm p-6",
-        className
-      )}
-      {...props}
-    />
-  );
+
+children,
+
+className
+
+}:Props){
+
+return(
+
+<div
+
+className={clsx(
+
+"rounded-3xl bg-white p-6 shadow-md border border-slate-200",
+
+className
+
+)}
+
+>
+
+{children}
+
+</div>
+
+);
+
 }

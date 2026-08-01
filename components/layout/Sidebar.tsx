@@ -1,24 +1,32 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   LayoutDashboard,
+  MessageSquareText,
   BarChart3,
   FileText,
-  Bell,
-  User,
+  UserCircle2,
   Settings,
   HelpCircle,
-  Phone,
-  Sparkles,
 } from "lucide-react";
 
-const menuItems = [
+import Logo from "@/components/branding/Logo";
+import SidebarItem from "./SidebarItem";
+import WorkspaceSwitcher from "./WorkspaceSwitcher";
+import UserProfile from "./UserProfile";
+
+const mainMenu = [
   {
     title: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Feedback",
+    href: "/feedback",
+    icon: MessageSquareText,
   },
   {
     title: "Analytics",
@@ -29,16 +37,15 @@ const menuItems = [
     title: "Reports",
     href: "/reports",
     icon: FileText,
+    badge: "New",
   },
-  {
-    title: "Notifications",
-    href: "/notifications",
-    icon: Bell,
-  },
+];
+
+const accountMenu = [
   {
     title: "Profile",
     href: "/profile",
-    icon: User,
+    icon: UserCircle2,
   },
   {
     title: "Settings",
@@ -50,124 +57,80 @@ const menuItems = [
     href: "/help",
     icon: HelpCircle,
   },
-  {
-    title: "Contact",
-    href: "/contact",
-    icon: Phone,
-  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex h-screen w-72 flex-col bg-[#0F172A] text-white fixed left-0 top-0">
+    <aside className="fixed left-0 top-0 z-50 flex h-screen w-[290px] flex-col border-r border-slate-200 bg-white/95 backdrop-blur-xl">
 
-      {/* Logo */}
-      <div className="border-b border-slate-800 px-8 py-7">
+      {/* Brand */}
 
-        <div className="flex items-center gap-3">
+      <div className="border-b border-slate-100 p-6">
 
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500">
+        <Logo />
 
-            <Sparkles size={22} />
+      </div>
 
-          </div>
+      {/* Workspace */}
 
-          <div>
+      <div className="px-6 pt-6">
 
-            <h1 className="text-xl font-bold">
-              Feedback AI
-            </h1>
-
-            <p className="text-xs text-slate-400">
-            </p>
-
-          </div>
-
-        </div>
+        <WorkspaceSwitcher />
 
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-5 py-6">
+
+      <div className="flex-1 overflow-y-auto px-5 py-6">
+
+        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          Main Menu
+        </p>
 
         <div className="space-y-2">
 
-          {menuItems.map((item) => {
-
-            const Icon = item.icon;
-
-            const active = pathname === item.href;
-
-            return (
-              <Link
-                key={item.title}
-                href={item.href}
-                className={`flex items-center gap-4 rounded-xl px-5 py-3 transition-all
-                ${
-                  active
-                    ? "bg-violet-600 text-white shadow-lg"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                }`}
-              >
-                <Icon size={20} />
-
-                <span>{item.title}</span>
-
-              </Link>
-            );
-          })}
+          {mainMenu.map((item) => (
+            <SidebarItem
+              key={item.title}
+              href={item.href}
+              title={item.title}
+              icon={item.icon}
+              badge={item.badge}
+              active={pathname === item.href}
+            />
+          ))}
 
         </div>
 
-      </nav>
+        <div className="my-8 border-t border-slate-200" />
 
-      {/* Upgrade Card */}
-      <div className="px-5 pb-5">
+        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          Account
+        </p>
 
-        <div className="rounded-2xl bg-slate-800 p-5">
+        <div className="space-y-2">
 
-          <h3 className="font-semibold">
-            Upgrade to Pro
-          </h3>
-
-          <p className="mt-2 text-sm text-slate-400">
-            Unlock AI insights and premium analytics.
-          </p>
-
-          <button className="mt-5 w-full rounded-xl bg-violet-600 py-3 font-semibold hover:bg-violet-700 transition">
-
-            Upgrade Now
-
-          </button>
+          {accountMenu.map((item) => (
+            <SidebarItem
+              key={item.title}
+              href={item.href}
+              title={item.title}
+              icon={item.icon}
+              active={pathname === item.href}
+            />
+          ))}
 
         </div>
 
       </div>
 
-      {/* User */}
-      <div className="border-t border-slate-800 px-5 py-5">
+      {/* Footer */}
 
-        <div className="flex items-center gap-3">
+      <div className="border-t border-slate-200 p-5">
 
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-600 font-bold">
-            Z
-          </div>
-
-          <div>
-
-            <h4 className="font-semibold">
-              Zara
-            </h4>
-
-            <p className="text-sm text-slate-400">
-              Admin
-            </p>
-
-          </div>
-
-        </div>
+        <UserProfile />
 
       </div>
 

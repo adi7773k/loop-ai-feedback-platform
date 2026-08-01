@@ -1,46 +1,55 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { ButtonHTMLAttributes } from "react";
+import clsx from "clsx";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-300 focus:outline-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary:
-          "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg",
-        secondary:
-          "bg-white border border-gray-200 hover:bg-gray-100",
-        danger:
-          "bg-red-600 text-white hover:bg-red-700",
-      },
-      size: {
-        sm: "h-9 px-4 text-sm",
-        md: "h-11 px-6",
-        lg: "h-12 px-8 text-lg",
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
-  }
-);
+interface Props
+extends ButtonHTMLAttributes<HTMLButtonElement>{
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+variant?:
+"default"
+|"outline"
+|"ghost";
+
+}
 
 export default function Button({
-  className,
-  variant,
-  size,
-  ...props
-}: ButtonProps) {
-  return (
-    <button
-      className={cn(buttonVariants({ variant, size }), className)}
-      {...props}
-    />
-  );
+
+variant="default",
+
+className,
+
+...props
+
+}:Props){
+
+return(
+
+<button
+
+className={clsx(
+
+"rounded-2xl px-5 py-3 font-semibold transition-all",
+
+{
+
+"bg-blue-600 text-white hover:bg-blue-700 shadow-lg":
+variant==="default",
+
+"border border-slate-300 bg-white hover:bg-slate-50":
+variant==="outline",
+
+"hover:bg-slate-100":
+variant==="ghost",
+
+},
+
+className
+
+)}
+
+{...props}
+
+/>
+
+);
+
 }
