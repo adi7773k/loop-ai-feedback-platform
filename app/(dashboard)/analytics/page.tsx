@@ -1,35 +1,20 @@
 import AnalyticsHeader from "@/components/analytics/AnalyticsHeader";
-import AnalyticsCards from "@/components/analytics/AnalyticsCards";
-import MonthlyChart from "@/components/analytics/MonthlyChart";
-import RatingChart from "@/components/analytics/RatingChart";
-import SentimentPie from "@/components/analytics/SentimentPie";
-import CategoryChart from "@/components/analytics/CategoryChart";
-import TopProducts from "@/components/analytics/TopProducts";
-import ExportAnalytics from "@/components/analytics/ExportAnalytics";
+import AnalyticsStats from "@/components/analytics/AnalyticsStats";
+import AnalyticsFilters from "@/components/analytics/AnalyticsFilters";
+import AnalyticsCharts from "@/components/analytics/AnalyticsCharts";
 
 export default function AnalyticsPage() {
   return (
-    <main className="space-y-8 p-6">
+    <div className="space-y-8">
 
       <AnalyticsHeader />
 
-      <AnalyticsCards />
+      <AnalyticsStats />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <MonthlyChart />
-        <RatingChart />
-      </div>
+      <AnalyticsFilters />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <SentimentPie />
-        <CategoryChart />
-      </div>
+      <AnalyticsCharts />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <TopProducts />
-        <ExportAnalytics />
-      </div>
-
-    </main>
+    </div>
   );
 }

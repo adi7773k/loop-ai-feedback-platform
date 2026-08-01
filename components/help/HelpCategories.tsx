@@ -1,36 +1,74 @@
-"use client";
+import {
+  BookOpen,
+  FileText,
+  ShieldCheck,
+  MessageCircle,
+} from "lucide-react";
 
-import { helpCategories } from "@/data/helpData";
-import { FolderOpen } from "lucide-react";
+const categories = [
+  {
+    title: "Documentation",
+    description: "Read platform documentation.",
+    icon: BookOpen,
+    color: "bg-blue-100 text-blue-600",
+  },
+  {
+    title: "User Guides",
+    description: "Learn how to use Loop AI.",
+    icon: FileText,
+    color: "bg-green-100 text-green-600",
+  },
+  {
+    title: "Security",
+    description: "Privacy and account security.",
+    icon: ShieldCheck,
+    color: "bg-red-100 text-red-600",
+  },
+  {
+    title: "Community",
+    description: "Join discussions and support.",
+    icon: MessageCircle,
+    color: "bg-violet-100 text-violet-600",
+  },
+];
 
 export default function HelpCategories() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-6 text-xl font-bold">
-        Help Categories
-      </h2>
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {helpCategories.map((category) => (
+      {categories.map((item) => {
+
+        const Icon = item.icon;
+
+        return (
+
           <div
-            key={category.id}
-            className="rounded-xl border border-slate-200 p-5 transition hover:border-indigo-500 hover:shadow-md"
+            key={item.title}
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
           >
-            <FolderOpen
-              className="mb-3 text-indigo-600"
-              size={28}
-            />
 
-            <h3 className="font-semibold">
-              {category.title}
+            <div
+              className={`flex h-14 w-14 items-center justify-center rounded-2xl ${item.color}`}
+            >
+
+              <Icon size={28} />
+
+            </div>
+
+            <h3 className="mt-5 text-xl font-bold">
+              {item.title}
             </h3>
 
-            <p className="mt-2 text-sm text-slate-500">
-              {category.description}
+            <p className="mt-2 text-slate-500">
+              {item.description}
             </p>
+
           </div>
-        ))}
-      </div>
+
+        );
+
+      })}
+
     </div>
   );
 }

@@ -1,38 +1,54 @@
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import DashboardFilters from "@/components/dashboard/DashboardFilters";
-import StatsCards from "@/components/dashboard/StatsCards";
-import RevenueChart from "@/components/dashboard/RevenueChart";
-import SentimentChart from "@/components/dashboard/SentimentChart";
-import RecentFeedback from "@/components/dashboard/RecentFeedback";
-import TopProducts from "@/components/dashboard/TopProducts";
-import QuickActions from "@/components/dashboard/QuickActions";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import HeroBanner from "@/components/dashboard/HeroBanner";
+import KPISection from "@/components/dashboard/KPISection";
+import ChartsSection from "@/components/dashboard/charts/ChartsSection";
+import DashboardBottom from "@/components/dashboard/tables/DashboardBottom";
+import DashboardWidgets from "@/components/dashboard/widgets/DashboardWidgets";
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user has valid session
+    const authSession = localStorage.getItem("authSession");
+    
+    if (!authSession) {
+      // No session - redirect to login
+      router.push("/login");
+    } else {
+      // Valid session - allow access
+      setIsAuthorized(true);
+      setLoading(false);
+    }
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+          <p className="text-slate-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return null; // Router will redirect, so return nothing
+  }
+
   return (
-    <main className="space-y-8 p-6">
-      <DashboardHeader />
-
-      <DashboardFilters />
-
-      <StatsCards />
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <RevenueChart />
-        </div>
-
-        <SentimentChart />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <RecentFeedback />
-        </div>
-
-        <TopProducts />
-      </div>
-
-      <QuickActions />
-    </main>
+    <div className="space-y-8">
+      <HeroBanner />
+      <KPISection />
+      <ChartsSection />
+      <DashboardWidgets />
+      <DashboardBottom />
+    </div>
   );
 }

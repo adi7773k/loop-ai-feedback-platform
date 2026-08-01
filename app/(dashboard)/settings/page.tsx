@@ -1,40 +1,34 @@
 import SettingsHeader from "@/components/settings/SettingsHeader";
-import ProfileSettings from "@/components/settings/ProfileSettings";
-import AccountSettings from "@/components/settings/AccountSettings";
-import NotificationSettings from "@/components/settings/NotificationSettings";
-import AppearanceSettings from "@/components/settings/AppearanceSettings";
+import ThemeSettings from "@/components/settings/ThemeSettings";
 import LanguageSettings from "@/components/settings/LanguageSettings";
-import SaveSettings from "@/components/settings/SaveSettings";
-import DangerZone from "@/components/settings/DangerZone";
+import NotificationSettings from "@/components/settings/NotificationSettings";
+import SecuritySettings from "@/components/settings/SecuritySettings";
+import AccountSettings from "@/components/settings/AccountSettings";
 
 export default function SettingsPage() {
   return (
-    <main className="space-y-8 p-6">
+    <div className="space-y-8">
 
       <SettingsHeader />
 
-      <ProfileSettings />
+      <div className="grid gap-8 xl:grid-cols-2">
 
-      <div className="grid gap-6 lg:grid-cols-2">
-
-        <AccountSettings />
-
-        <NotificationSettings />
-
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-
-        <AppearanceSettings />
+        <ThemeSettings />
 
         <LanguageSettings />
 
       </div>
 
-      <SaveSettings />
+      <NotificationSettings />
 
-      <DangerZone />
+      <div className="grid gap-8 xl:grid-cols-2">
 
-    </main>
+        <SecuritySettings />
+
+        <AccountSettings />
+
+      </div>
+
+    </div>
   );
 }

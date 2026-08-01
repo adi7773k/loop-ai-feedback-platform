@@ -1,30 +1,23 @@
 import ReportsHeader from "@/components/reports/ReportsHeader";
-import ReportStats from "@/components/reports/ReportStats";
-import ReportFilters from "@/components/reports/ReportFilters";
+import ReportsStats from "@/components/reports/ReportsStats";
+import ReportsFilters from "@/components/reports/ReportsFilters";
 import ReportsTable from "@/components/reports/ReportsTable";
-import ReportPreview from "@/components/reports/ReportPreview";
-import ExportReports from "@/components/reports/ExportReports";
+import ReportsPagination from "@/components/reports/ReportsPagination";
 
 export default function ReportsPage() {
   return (
-    <main className="space-y-8 p-6">
+    <div className="space-y-8">
 
       <ReportsHeader />
 
-      <ReportStats />
+      <ReportsStats />
 
-      <ReportFilters />
+      <ReportsFilters />
 
       <ReportsTable />
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <ReportsPagination />
 
-        <ReportPreview />
-
-        <ExportReports />
-
-      </div>
-
-    </main>
+    </div>
   );
 }

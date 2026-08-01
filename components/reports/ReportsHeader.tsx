@@ -1,27 +1,29 @@
-"use client";
-
-import { FileText } from "lucide-react";
+import { FileSpreadsheet } from "lucide-react";
 
 export default function ReportsHeader() {
   return (
-    <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900">
-          Reports
-        </h1>
+      <div className="flex items-center gap-4">
 
-        <p className="mt-2 text-slate-500">
-          View, manage and export analytics reports.
-        </p>
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg">
+          <FileSpreadsheet size={30} />
+        </div>
+
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">
+            Reports
+          </h1>
+
+          <p className="mt-1 text-slate-500">
+            Generate, download and manage AI-generated reports.
+          </p>
+        </div>
+
       </div>
 
-      <button className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-white transition hover:bg-indigo-700">
-
-        <FileText size={20} />
-
+      <button className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow hover:bg-blue-700">
         Generate Report
-
       </button>
 
     </div>

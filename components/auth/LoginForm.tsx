@@ -1,73 +1,162 @@
 "use client";
 
 import Link from "next/link";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Input from "@/components/ui/Input";
-import Button from "@/components/ui/Button";
-import SocialLogin from "./SocialLogin";
 
 export default function LoginForm() {
   const router = useRouter();
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    // Frontend Demo Login
-    router.push("/dashboard");
+    try {
+      // Validation
+      if (!email || !password) {
+        setError("Please fill all fields");
+        setLoading(false);
+        return;
+      }
+
+      // Mock authentication - check against localStorage user
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) {
+        setError("User not found. Please register first.");
+        setLoading(false);
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      if (user.email !== email || user.password !== password) {
+        setError("Invalid email or password");
+        setLoading(false);
+        return;
+      }
+
+      // Create session
+      const authSession = {
+        userId: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        company: user.company,
+        loggedInAt: new Date().toISOString(),
+      };
+
+      localStorage.setItem("authSession", JSON.stringify(authSession));
+
+      // Redirect to dashboard
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Login failed. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
-      <h2 className="text-3xl font-bold text-slate-900">
-        Welcome Back 👋
-      </h2>
+    <form onSubmit={handleSubmit} className="space-y-6">
 
-      <p className="mt-2 text-slate-500">
-        Sign in to continue to your dashboard.
-      </p>
+      {error && (
+        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+          {error}
+        </div>
+      )}
 
-      <form onSubmit={handleLogin} className="mt-8 space-y-5">
-
-        <div>
-          <label className="mb-2 block text-sm font-medium">
-            Email Address
-          </label>
-
-          <Input
+      <div>
+        <label className="mb-2 block font-semibold">Email</label>
+        <div className="relative">
+          <Mail
+            className="absolute left-4 top-4 text-slate-400"
+            size={20}
+          />
+          <input
             type="email"
-            placeholder="john@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full rounded-xl border border-slate-300 py-4 pl-12 pr-4 outline-none transition focus:border-blue-600"
           />
         </div>
+      </div>
 
-        <div>
-          <label className="mb-2 block text-sm font-medium">
-            Password
-          </label>
-
-          <Input
-            type="password"
-            placeholder="••••••••"
+      <div>
+        <label className="mb-2 block font-semibold">Password</label>
+        <div className="relative">
+          <Lock
+            className="absolute left-4 top-4 text-slate-400"
+            size={20}
           />
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            className="w-full rounded-xl border border-slate-300 py-4 pl-12 pr-12 outline-none transition focus:border-blue-600"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-4 text-slate-500"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
         </div>
+      </div>
 
-        <Button type="submit" className="w-full">
-          Sign In
-        </Button>
-
-      </form>
-
-      <SocialLogin />
-
-      <p className="mt-8 text-center text-sm text-slate-500">
-        Don't have an account?
-
+      <div className="flex items-center justify-between">
+        <label className="flex items-center gap-2">
+          <input type="checkbox" />
+          <span className="text-sm">Remember Me</span>
+        </label>
         <Link
-          href="/register"
-          className="ml-2 font-semibold text-indigo-600 hover:underline"
+          href="/forgot-password"
+          className="text-sm font-semibold text-blue-600"
         >
-          Register
+          Forgot Password?
+        </Link>
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-4 font-semibold text-white transition hover:scale-[1.02] disabled:opacity-50"
+      >
+        {loading ? "Signing in..." : "Sign In"}
+      </button>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-white px-4 text-sm text-slate-500">OR</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="w-full rounded-xl border py-4 font-semibold transition hover:bg-slate-50"
+      >
+        Continue with Google
+      </button>
+
+      <p className="text-center text-slate-500">
+        Don't have an account?{" "}
+        <Link href="/register" className="font-semibold text-blue-600">
+          Create Account
         </Link>
       </p>
-    </div>
+
+    </form>
   );
 }

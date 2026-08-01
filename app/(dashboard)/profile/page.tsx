@@ -1,39 +1,34 @@
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileCard from "@/components/profile/ProfileCard";
-import UploadAvatar from "@/components/profile/UploadAvatar";
-import UserStats from "@/components/profile/UserStats";
-import EditProfile from "@/components/profile/EditProfile";
-import ActivityTimeline from "@/components/profile/ActivityTimeline";
-import AchievementCard from "@/components/profile/AchievementCard";
+import ProfileStats from "@/components/profile/ProfileStats";
+import ProfileDetails from "@/components/profile/ProfileDetails";
+import ChangePassword from "@/components/profile/ChangePassword";
+import ProfileActivity from "@/components/profile/ProfileActivity";
 
 export default function ProfilePage() {
   return (
-    <main className="space-y-8 p-6">
+    <div className="space-y-8">
 
       <ProfileHeader />
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <ProfileStats />
+
+      <div className="grid gap-8 xl:grid-cols-3">
 
         <ProfileCard />
 
-        <div className="lg:col-span-2">
-          <UploadAvatar />
+        <div className="space-y-8 xl:col-span-2">
+
+          <ProfileDetails />
+
+          <ChangePassword />
+
+          <ProfileActivity />
+
         </div>
 
       </div>
 
-      <UserStats />
-
-      <EditProfile />
-
-      <div className="grid gap-6 lg:grid-cols-2">
-
-        <ActivityTimeline />
-
-        <AchievementCard />
-
-      </div>
-
-    </main>
+    </div>
   );
 }

@@ -1,15 +1,16 @@
 import HelpHeader from "@/components/help/HelpHeader";
 import SearchHelp from "@/components/help/SearchHelp";
 import HelpCategories from "@/components/help/HelpCategories";
-import FAQSection from "@/components/help/FAQSection";
-import DocumentationCards from "@/components/help/DocumentationCards";
-import VideoTutorials from "@/components/help/VideoTutorials";
+import FAQ from "@/components/help/FAQ";
 import ContactSupport from "@/components/help/ContactSupport";
-import SupportTicket from "@/components/help/SupportTicket";
+import SupportCard from "@/components/help/SupportCard";
+import HelpArticles from "@/components/help/HelpArticles";
+import HelpVideoCard from "@/components/help/HelpVideoCard";
+import TicketStatus from "@/components/help/TicketStatus";
 
 export default function HelpPage() {
   return (
-    <main className="space-y-8 p-6">
+    <div className="space-y-8">
 
       <HelpHeader />
 
@@ -17,20 +18,30 @@ export default function HelpPage() {
 
       <HelpCategories />
 
-      <FAQSection />
+      <div className="grid gap-8 xl:grid-cols-3">
 
-      <DocumentationCards />
+        <div className="space-y-8 xl:col-span-2">
 
-      <VideoTutorials />
+          <FAQ />
 
-      <div className="grid gap-6 lg:grid-cols-2">
+          <HelpArticles />
 
-        <ContactSupport />
+          <ContactSupport />
 
-        <SupportTicket />
+          <TicketStatus />
+
+        </div>
+
+        <div className="space-y-8">
+
+          <SupportCard />
+
+          <HelpVideoCard />
+
+        </div>
 
       </div>
 
-    </main>
+    </div>
   );
 }

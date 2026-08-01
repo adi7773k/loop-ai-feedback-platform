@@ -1,37 +1,18 @@
-import Navbar from "@/components/layout/Navbar";
-
-import Hero from "@/components/home/Hero";
-import Features from "@/components/home/Features";
-import Stats from "@/components/home/Stats";
-import Testimonials from "@/components/home/Testimonials";
-import Pricing from "@/components/home/Pricing";
-import FAQ from "@/components/home/FAQ";
-import CTA from "@/components/home/CTA";
-import Footer from "@/components/home/Footer";
+import Navbar from "@/components/landing/Navbar";
+import HeroSection from "@/components/landing/Hero";
+import FeaturesSection from "@/components/landing/Features";
+import Testimonials from "@/components/landing/Testimonials";
+import CTASection from "@/components/landing/CTA";
+import Footer from "@/components/landing/Footer";
 
 export default function HomePage() {
   return (
     <>
       <Navbar />
-
-      <main>
-
-        <Hero />
-
-        <Features />
-
-        <Stats />
-
-        <Testimonials />
-
-        <Pricing />
-
-        <FAQ />
-
-        <CTA />
-
-      </main>
-
+      <HeroSection />
+      <FeaturesSection />
+      <Testimonials />
+      <CTASection />
       <Footer />
     </>
   );
