@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+<<<<<<< HEAD
 function slugify(value: string) {
   return value
     .trim()
@@ -21,6 +22,8 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+=======
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
 export default function RegisterForm() {
   const router = useRouter();
 
@@ -75,9 +78,15 @@ export default function RegisterForm() {
         return;
       }
 
+<<<<<<< HEAD
       // Password length (backend requires at least 8 characters)
       if (formData.password.length < 8) {
         setError("Password must be at least 8 characters");
+=======
+      // Password length
+      if (formData.password.length < 6) {
+        setError("Password must be at least 6 characters");
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
         setLoading(false);
         return;
       }
@@ -96,6 +105,7 @@ export default function RegisterForm() {
         return;
       }
 
+<<<<<<< HEAD
       const workspaceSlug = slugify(formData.company);
 
       // Real registration - creates a Workspace + Admin user in the database
@@ -127,6 +137,27 @@ export default function RegisterForm() {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
+=======
+      // Mock registration - replace with your API call
+      const userData = {
+        id: Date.now().toString(),
+        fullName: formData.fullName,
+        company: formData.company,
+        email: formData.email,
+        password: formData.password,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Save to localStorage (mock)
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      setSuccess("Account created successfully! Redirecting to login...");
+
+      // Redirect to login after 1.5 seconds
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
     } catch (err) {
       setError("Registration failed. Please try again.");
       console.error(err);
@@ -191,11 +222,14 @@ export default function RegisterForm() {
             className="w-full rounded-xl border border-slate-300 bg-white py-4 pl-12 pr-4 outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
           />
         </div>
+<<<<<<< HEAD
         {formData.company && (
           <p className="mt-1.5 text-xs text-slate-400">
             Workspace ID: {slugify(formData.company)}
           </p>
         )}
+=======
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
       </div>
 
       {/* Email */}
@@ -303,6 +337,27 @@ export default function RegisterForm() {
         <ArrowRight size={18} />
       </button>
 
+<<<<<<< HEAD
+=======
+      {/* Divider */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t"></div>
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-white px-4 text-sm text-slate-500">OR</span>
+        </div>
+      </div>
+
+      {/* Google */}
+      <button
+        type="button"
+        className="w-full rounded-xl border border-slate-300 bg-white py-4 font-semibold transition hover:bg-slate-50"
+      >
+        Continue with Google
+      </button>
+
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
       {/* Login Link */}
       <p className="text-center text-slate-500">
         Already have an account?{" "}
@@ -312,4 +367,8 @@ export default function RegisterForm() {
       </p>
     </form>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848

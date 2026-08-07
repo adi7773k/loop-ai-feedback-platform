@@ -4,14 +4,20 @@ import {
   Bell,
   CalendarDays,
   ChevronDown,
+<<<<<<< HEAD
   LogOut,
+=======
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
   Menu,
   Moon,
   Search,
   Sparkles,
 } from "lucide-react";
+<<<<<<< HEAD
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
+=======
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
 
 interface NavbarProps {
   onMenuClick?: () => void;
@@ -20,6 +26,7 @@ interface NavbarProps {
 export default function Navbar({
   onMenuClick,
 }: NavbarProps) {
+<<<<<<< HEAD
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,6 +36,8 @@ export default function Navbar({
     : "";
   const initial = displayName.charAt(0).toUpperCase();
 
+=======
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
   return (
     <header className="fixed top-0 left-0 right-0 z-40 h-20 border-b border-slate-200 bg-white/90 backdrop-blur-xl lg:left-[290px]">
 
@@ -116,6 +125,7 @@ export default function Navbar({
 
           {/* User */}
 
+<<<<<<< HEAD
           <div className="relative">
 
             <button
@@ -161,6 +171,34 @@ export default function Navbar({
             )}
 
           </div>
+=======
+          <button className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition hover:shadow-md">
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 font-bold text-white">
+
+              Z
+
+            </div>
+
+            <div className="hidden text-left md:block">
+
+              <h4 className="text-sm font-semibold text-slate-900">
+                Zara SS
+              </h4>
+
+              <p className="text-xs text-slate-500">
+                Administrator
+              </p>
+
+            </div>
+
+            <ChevronDown
+              size={18}
+              className="text-slate-500"
+            />
+
+          </button>
+>>>>>>> 964f3a3ee2badd18c251f4b35a4ad362bc0de848
 
         </div>
 
