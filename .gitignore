@@ -1,6 +1,6 @@
-# ==========================
+
 # Dependencies
-# ==========================
+
 front/node_modules/
 back/node_modules/
 
@@ -10,29 +10,28 @@ back/node_modules/
 .yarn/
 .yarn/install-state.gz
 
-# ==========================
+
 # Next.js build output
-# ==========================
+
 front/.next/
 back/.next/
 front/out/
 back/out/
 
-# ==========================
+
 # Build output
-# ==========================
+
 front/build/
 back/build/
 
-# ==========================
 # Coverage
-# ==========================
+
 front/coverage/
 back/coverage/
 
-# ==========================
+
 # Environment files
-# ==========================
+
 front/.env
 front/.env.local
 front/.env.development.local
@@ -45,9 +44,9 @@ back/.env.development.local
 back/.env.production.local
 back/.env.test.local
 
-# ==========================
+
 # TypeScript
-# ==========================
+
 front/*.tsbuildinfo
 back/*.tsbuildinfo
 
@@ -55,15 +54,15 @@ back/*.tsbuildinfo
 front/next-env.d.ts
 back/next-env.d.ts
 
-# ==========================
+
 # Vercel
-# ==========================
+
 front/.vercel/
 back/.vercel/
 
-# ==========================
+
 # Logs
-# ==========================
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -91,18 +90,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-<<<<<<< HEAD
-# ==========================
+
+
 # OS files
-# ==========================
 .DS_Store
 Thumbs.db
 
-# ==========================
 # Certificates
-# ==========================
+
 *.pem
-=======
+
 # local env files
 .env*.local
 
@@ -112,4 +109,4 @@ Thumbs.db
 # typescript
 *.tsbuildinfo
 next-env.d.ts
->>>>>>> feature/frontend
+
