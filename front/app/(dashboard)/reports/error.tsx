@@ -35,7 +35,7 @@ export default function Error({
         </h1>
 
         <p className="mt-3 text-slate-500">
-          We couldn't load the Reports module.
+          We couldn&apos;t load the Reports module.
           Please try again or return to the dashboard.
         </p>
 

@@ -5,6 +5,19 @@ import { Role } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { signupSchema } from "@/lib/validations/auth";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "http://localhost:3001",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -19,6 +32,7 @@ export async function POST(request: NextRequest) {
         },
         {
           status: 400,
+          headers: corsHeaders,
         }
       );
     }
@@ -38,6 +52,25 @@ export async function POST(request: NextRequest) {
         },
         {
           status: 409,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        {
+          message: "An account with this email already exists.",
+        },
+        {
+          status: 409,
+          headers: corsHeaders,
         }
       );
     }
@@ -69,10 +102,11 @@ export async function POST(request: NextRequest) {
       },
       {
         status: 201,
+        headers: corsHeaders,
       }
     );
   } catch (error) {
-    console.error(error);
+    console.error("Signup error:", error);
 
     return NextResponse.json(
       {
@@ -80,6 +114,7 @@ export async function POST(request: NextRequest) {
       },
       {
         status: 500,
+        headers: corsHeaders,
       }
     );
   }

@@ -30,7 +30,6 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        // Check if all required credentials are present
         if (
           !credentials?.workspace ||
           !credentials?.email ||
@@ -39,42 +38,41 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Find the workspace using its unique slug
-        const workspace = await prisma.workspace.findUnique({
-          where: {
-            slug: credentials.workspace,
-          },
-        });
-
-        if (!workspace) {
-          return null;
-        }
-
-        // Find the user inside the workspace
-        const user = await prisma.user.findUnique({
-          where: {
-            workspaceId_email: {
-              workspaceId: workspace.id,
-              email: credentials.email,
+        const workspace =
+          await prisma.workspace.findUnique({
+            where: {
+              slug: credentials.workspace,
             },
-          },
-        });
+          });
 
-        if (!user) {
+        if (!workspace || workspace.deletedAt) {
           return null;
         }
 
-        // Compare the entered password with the stored hash
-        const passwordMatch = await compare(
-          credentials.password,
-          user.passwordHash
-        );
+        const user =
+          await prisma.user.findUnique({
+            where: {
+              workspaceId_email: {
+                workspaceId: workspace.id,
+                email: credentials.email,
+              },
+            },
+          });
+
+        if (!user || user.deletedAt) {
+          return null;
+        }
+
+        const passwordMatch =
+          await compare(
+            credentials.password,
+            user.passwordHash
+          );
 
         if (!passwordMatch) {
           return null;
         }
 
-        // Return the authenticated user
         return {
           id: user.id,
           name: user.name,
@@ -86,29 +84,36 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   callbacks: {
-  async jwt({ token, user }) {
-    if (user) {
-      token.id = user.id;
-      token.role = user.role;
-      token.workspaceId = user.workspaceId;
-      token.workspaceSlug = user.workspaceSlug;
-    }
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = user.role;
+        token.workspaceId = user.workspaceId;
+        token.workspaceSlug = user.workspaceSlug;
+      }
 
-    return token;
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.role = token.role as any;
+        session.user.workspaceId =
+          token.workspaceId as string;
+        session.user.workspaceSlug =
+          token.workspaceSlug as string;
+      }
+
+      return session;
+    },
   },
-
-  async session({ session, token }) {
-    if (session.user) {
-      session.user.id = token.id;
-      session.user.role = token.role;
-      session.user.workspaceId = token.workspaceId;
-      session.user.workspaceSlug = token.workspaceSlug;
-    }
-
-    return session;
-  },
-},
 
   pages: {
     signIn: "/auth/login",

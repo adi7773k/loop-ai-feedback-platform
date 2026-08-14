@@ -2,9 +2,6 @@
 
 import {
   ChevronDown,
-  User,
-  Settings,
-  LogOut,
 } from "lucide-react";
 
 export default function UserDropdown() {

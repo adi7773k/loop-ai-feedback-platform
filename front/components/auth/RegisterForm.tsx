@@ -56,7 +56,6 @@ export default function RegisterForm() {
     setLoading(true);
 
     try {
-      // Validation
       if (
         !formData.fullName ||
         !formData.company ||
@@ -65,57 +64,50 @@ export default function RegisterForm() {
         !formData.confirmPassword
       ) {
         setError("Please fill all fields");
-        setLoading(false);
         return;
       }
 
-      // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!emailRegex.test(formData.email)) {
         setError("Invalid email format");
-        setLoading(false);
         return;
       }
 
-      // Password validation
       if (formData.password.length < 8) {
         setError("Password must be at least 8 characters");
-        setLoading(false);
         return;
       }
 
-      // Confirm password
       if (formData.password !== formData.confirmPassword) {
         setError("Passwords do not match");
-        setLoading(false);
         return;
       }
 
-      // Terms and conditions
       if (!formData.termsAccepted) {
         setError("Please accept Terms & Conditions");
-        setLoading(false);
         return;
       }
 
-      // Generate workspace slug
       const workspaceSlug = slugify(formData.company);
 
-      // Register user through backend API
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-          workspaceName: formData.company,
-          workspaceSlug,
-        }),
-      });
+      // Frontend (:3001) -> Backend (:3000)
+      const response = await fetch(
+        "http://localhost:3000/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+            workspaceName: formData.company,
+            workspaceSlug,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -123,7 +115,6 @@ export default function RegisterForm() {
         setError(
           data.message || "Registration failed. Please try again."
         );
-        setLoading(false);
         return;
       }
 
@@ -131,13 +122,14 @@ export default function RegisterForm() {
         `Account created successfully! Your workspace ID is "${workspaceSlug}" — you'll need it to sign in. Redirecting to login...`
       );
 
-      // Redirect to login
       setTimeout(() => {
         router.push("/login");
       }, 2000);
     } catch (err) {
       console.error(err);
-      setError("Registration failed. Please try again.");
+      setError(
+        "Unable to connect to the backend. Please make sure the backend is running."
+      );
     } finally {
       setLoading(false);
     }
@@ -145,21 +137,18 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Error Message */}
       {error && (
         <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
           {error}
         </div>
       )}
 
-      {/* Success Message */}
       {success && (
         <div className="rounded-lg bg-green-50 p-3 text-sm text-green-600">
           {success}
         </div>
       )}
 
-      {/* Full Name */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-slate-700">
           Full Name
@@ -182,7 +171,6 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      {/* Company */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-slate-700">
           Company
@@ -211,7 +199,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Email */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-slate-700">
           Email Address
@@ -234,7 +221,6 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      {/* Password */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-slate-700">
           Password
@@ -269,7 +255,6 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      {/* Confirm Password */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-slate-700">
           Confirm Password
@@ -304,7 +289,6 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      {/* Terms */}
       <label className="flex items-start gap-3">
         <input
           type="checkbox"
@@ -323,7 +307,6 @@ export default function RegisterForm() {
         </span>
       </label>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={loading}
@@ -334,7 +317,6 @@ export default function RegisterForm() {
         <ArrowRight size={18} />
       </button>
 
-      {/* Login Link */}
       <p className="text-center text-slate-500">
         Already have an account?{" "}
         <Link

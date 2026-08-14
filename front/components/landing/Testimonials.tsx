@@ -69,7 +69,7 @@ export default function Testimonials() {
               />
 
               <p className="mt-6 leading-8 text-slate-600">
-                "{item.review}"
+                &quot;{item.review}&quot;
               </p>
 
               <div className="mt-6 flex gap-1">

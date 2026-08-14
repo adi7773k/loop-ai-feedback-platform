@@ -10,31 +10,69 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+import {
+  clearAuthUser,
+  getAuthUser,
+  AuthUser,
+} from "@/lib/auth-client";
 
 interface NavbarProps {
   onMenuClick?: () => void;
 }
 
-export default function Navbar({ onMenuClick }: NavbarProps) {
-  const { data: session } = useSession();
+export default function Navbar({
+  onMenuClick,
+}: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
 
-  const displayName = session?.user?.name || "Account";
+  useEffect(() => {
+    setUser(getAuthUser());
+  }, []);
 
-  const displayRole = session?.user?.role
-    ? session.user.role.charAt(0) +
-      session.user.role.slice(1).toLowerCase()
+  const displayName = user?.name || "Account";
+
+  const displayRole = user?.role
+    ? user.role.charAt(0) +
+      user.role.slice(1).toLowerCase()
     : "";
 
-  const initial = displayName.charAt(0).toUpperCase();
+  const initial = displayName
+    .charAt(0)
+    .toUpperCase();
+
+  const handleSignOut = async () => {
+  try {
+    await fetch(
+      "http://localhost:3000/api/auth/logout",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Logout error:",
+      error
+    );
+  } finally {
+    clearAuthUser();
+    setUser(null);
+    setMenuOpen(false);
+
+    window.location.href = "/login";
+  }
+};
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 h-20 border-b border-slate-200 bg-white/90 backdrop-blur-xl lg:left-[290px]">
       <div className="flex h-full items-center justify-between px-4 md:px-8">
+
         {/* LEFT */}
         <div className="flex items-center gap-4">
+
           {/* Mobile Menu */}
           <button
             onClick={onMenuClick}
@@ -45,7 +83,10 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
           {/* Search */}
           <div className="hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition focus-within:ring-2 focus-within:ring-blue-500 lg:flex">
-            <Search size={18} className="text-slate-400" />
+            <Search
+              size={18}
+              className="text-slate-400"
+            />
 
             <input
               type="text"
@@ -57,6 +98,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
+
           {/* AI */}
           <button className="hidden items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-3 font-medium text-white shadow-lg transition hover:scale-105 xl:flex">
             <Sparkles size={18} />
@@ -89,7 +131,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           {/* User */}
           <div className="relative">
             <button
-              onClick={() => setMenuOpen((open) => !open)}
+              onClick={() =>
+                setMenuOpen((open) => !open)
+              }
               className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition hover:shadow-md"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 font-bold text-white">
@@ -115,9 +159,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             {menuOpen && (
               <div className="absolute right-0 top-14 z-50 w-44 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg">
                 <button
-                  onClick={() =>
-                    signOut({ callbackUrl: "/login" })
-                  }
+                  onClick={handleSignOut}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
                 >
                   <LogOut size={16} />
@@ -126,6 +168,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               </div>
             )}
           </div>
+
         </div>
       </div>
     </header>

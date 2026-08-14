@@ -1,6 +1,5 @@
 import {
   Star,
-  MessageSquare,
 } from "lucide-react";
 
 const feedback = [

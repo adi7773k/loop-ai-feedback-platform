@@ -1,6 +1,5 @@
 import {
   Sparkles,
-  TrendingUp,
   Brain,
 } from "lucide-react";
 
