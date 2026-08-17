@@ -31,11 +31,9 @@ export async function generateEmbedding(
     `${AI_SERVICE_URL}/api/ai/embed`,
     {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         text: text.trim(),
       }),
@@ -64,11 +62,9 @@ export async function classifyFeedback(
     `${AI_SERVICE_URL}/api/ai/classify`,
     {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         feedback: feedback.trim(),
       }),

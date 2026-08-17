@@ -11,11 +11,22 @@ from app.schemas.classification import (
 from app.services.classification_service import (
     ClassificationService,
 )
+
 from app.schemas.embedding import (
     EmbeddingRequest,
     EmbeddingResponse,
 )
-from app.services.embedding_service import embedding_service
+from app.services.embedding_service import (
+    embedding_service,
+)
+
+from app.schemas.recommendation import (
+    RecommendationRequest,
+    RecommendationResponse,
+)
+from app.services.recommendation_service import (
+    RecommendationService,
+)
 
 
 load_dotenv()
@@ -27,6 +38,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
+# --------------------------------------------------
+# Groq client
+# --------------------------------------------------
 
 api_key = os.getenv("GROQ_API_KEY")
 
@@ -41,11 +56,24 @@ groq_client = Groq(
 )
 
 
+# --------------------------------------------------
+# AI services
+# --------------------------------------------------
+
 classification_service = ClassificationService(
     client=groq_client,
     model="llama-3.3-70b-versatile",
 )
 
+recommendation_service = RecommendationService(
+    client=groq_client,
+    model="llama-3.3-70b-versatile",
+)
+
+
+# --------------------------------------------------
+# Health
+# --------------------------------------------------
 
 @app.get("/health")
 def health_check():
@@ -54,6 +82,10 @@ def health_check():
         "service": "loop-ai",
     }
 
+
+# --------------------------------------------------
+# Classification
+# --------------------------------------------------
 
 @app.post(
     "/api/ai/classify",
@@ -70,13 +102,19 @@ def classify_feedback(
         return result
 
     except Exception as error:
-        print(f"Classification error: {error}")
+        print(
+            f"Classification error: {error}"
+        )
 
         raise HTTPException(
             status_code=500,
             detail="AI classification failed.",
         )
 
+
+# --------------------------------------------------
+# Embedding
+# --------------------------------------------------
 
 @app.post(
     "/api/ai/embed",
@@ -103,9 +141,40 @@ def generate_embedding(
         )
 
     except Exception as error:
-        print(f"Embedding error: {error}")
+        print(
+            f"Embedding error: {error}"
+        )
 
         raise HTTPException(
             status_code=500,
             detail="Embedding generation failed.",
+        )
+
+
+# --------------------------------------------------
+# Recommendation
+# --------------------------------------------------
+
+@app.post(
+    "/api/ai/recommend",
+    response_model=RecommendationResponse,
+)
+def generate_recommendation(
+    request: RecommendationRequest,
+):
+    try:
+        result = recommendation_service.recommend(
+            request.feedbackSummary
+        )
+
+        return result
+
+    except Exception as error:
+        print(
+            f"Recommendation error: {error}"
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="AI recommendation failed.",
         )

@@ -27,7 +27,7 @@ class ClassificationRequest(BaseModel):
     feedback: str = Field(
         ...,
         min_length=1,
-        max_length=10000,
+        max_length=50000,
     )
 
 
