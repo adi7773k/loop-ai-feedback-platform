@@ -1,1 +1,9 @@
  npx next dev -p 3001  f
+ uvicorn app.main:app --reload a
+
+
+ Sure 👍 We’ll leave the authentication/CSV import issue for later.
+
+When you come back, we can continue from the exact point we reached: the CSV import route is returning 401 because getServerSession(authOptions) isn't receiving the expected authenticated session through the frontend → backend rewrite.
+
+You won't need to re-explain everything.

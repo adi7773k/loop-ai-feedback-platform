@@ -62,12 +62,12 @@ groq_client = Groq(
 
 classification_service = ClassificationService(
     client=groq_client,
-    model="llama-3.3-70b-versatile",
+    model="openai/gpt-oss-120b",
 )
 
 recommendation_service = RecommendationService(
     client=groq_client,
-    model="llama-3.3-70b-versatile",
+    model="openai/gpt-oss-120b",
 )
 
 
