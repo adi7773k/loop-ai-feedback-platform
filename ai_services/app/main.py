@@ -27,6 +27,14 @@ from app.schemas.recommendation import (
 from app.services.recommendation_service import (
     RecommendationService,
 )
+from app.schemas.chat import (
+    ChatRequest,
+    ChatResponse,
+)
+
+from app.services.chat_service import (
+    ChatService,
+)
 
 
 load_dotenv()
@@ -69,7 +77,10 @@ recommendation_service = RecommendationService(
     client=groq_client,
     model="openai/gpt-oss-120b",
 )
-
+chat_service = ChatService(
+    client=groq_client,
+    model="openai/gpt-oss-120b",
+)
 
 # --------------------------------------------------
 # Health
@@ -177,4 +188,38 @@ def generate_recommendation(
         raise HTTPException(
             status_code=500,
             detail="AI recommendation failed.",
+        )
+    # --------------------------------------------------
+# Chat
+# --------------------------------------------------
+
+@app.post(
+    "/api/ai/chat",
+    response_model=ChatResponse,
+)
+def chat(
+    request: ChatRequest,
+):
+    try:
+        result = chat_service.chat(
+            request.message,
+            request.context,
+        )
+
+        return result
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error),
+        )
+
+    except Exception as error:
+        print(
+            f"Chat error: {error}"
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="AI chat failed.",
         )
